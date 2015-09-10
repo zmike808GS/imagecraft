@@ -142,6 +142,7 @@ class ImageFactory
      */
     protected function initQuality(BackgroundLayerInterface $layer)
     {
+        /*
         $extracted = $layer->get('gif.extracted');
         $width     = $layer->get('final.width');
         $height    = $layer->get('final.height');
@@ -153,8 +154,9 @@ class ImageFactory
         } else {
             $quality = false;
         }
+        */
 
-        $layer->set('gif.quality', $quality);
+        $layer->set('gif.quality', false);
     }
 
     /**
@@ -207,8 +209,8 @@ class ImageFactory
         } else {
             $contents = $layer->get('image.contents');
             $resource = $this->rh->getGdResourceFromContents($format, $contents, true);
-        }        
-		
+        }
+
 		if ($layer->has('image.rotate.angle')) {
             $resource = $this->rh->getRotatedGdResource(
                 $resource,
@@ -226,7 +228,7 @@ class ImageFactory
                 true
             );
         }
-		
+
 		if ($layer->has('image.flip')) {
             $resource = $this->rh->getFlippedGdResource($resource, $layer->get('image.flip'));
         }
@@ -332,7 +334,7 @@ class ImageFactory
             );
             $layer->set('gif.frame_resource', $resource);
         }
-		
+
 		if ($layer->has('image.resize.width')) {
             $resource = $this->rh->getResizedGdResource(
                 $layer->get('gif.frame_resource'),
@@ -343,12 +345,12 @@ class ImageFactory
             );
             $layer->set('gif.frame_resource', $resource);
         }
-		
+
 		if ($layer->has('image.flip')) {
             $resource = $this->rh->getFlippedGdResource($layer->get('gif.frame_resource'), $layer->get('image.flip'));
             $layer->set('gif.frame_resource', $resource);
         }
-		
+
 		if ($layer->has('image.opacity')) {
             $resource = $this->rh->getOpacityGdResource($layer->get('gif.frame_resource'), $layer->get('image.opacity'));
 			$layer->set('gif.frame_resource', $resource);
